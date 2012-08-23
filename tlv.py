@@ -12,6 +12,7 @@
 
 def tag_tags(data, size, tags_db):
 	i = 0
+	items = []
 
 	while (i < size):
 		tag_1 = data[i]
@@ -41,9 +42,18 @@ def tag_tags(data, size, tags_db):
 			tag_name = 'Unknown tag'
 			tag_func = tag_binary
 
+
 		print '0x%x [0x%.2x] %s' % (tag, tag_size, tag_name)
-		tag_func(tag_data, tag_size, tags_db)
+		items.append({
+			'name':tag_name,
+			'size':tag_size,
+			'data':tag_data,
+			'content':tag_func(tag_data, tag_size, tags_db)
+		})
+
 		i += tag_size
+
+	return items
 	
 	
 def tag_binary(data, size, tags_db):
@@ -110,8 +120,14 @@ TAG_OBJECT = tag_object
 class TLV:
 	def __init__(self, tags_db={}):
 		self.tags_db = tags_db
-		self.data = ()
+		self.data = []
 
 	def parse(self, data):
 		self.data = tag_tags(data, len(data), self.tags_db)
 		return self.data
+
+	def show(self, data=None, deep=0):
+		if data == None:
+			data = self.data
+		for i in data:
+			print i

@@ -178,7 +178,7 @@ class ISO7816:
 		res,sw1,sw2 = self.send_apdu(ins=ins, p1=p1, p2=p2, data=data)
 		tlv = TLV(self.tags_db)
 		tlv.parse(res)
-		return
+		return res,sw1,sw2,tlv
 
 	def VERIFY(self):
 		return
