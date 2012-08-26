@@ -50,6 +50,8 @@ INS_DB = (
 	}
 )
 
+# TODO: Better DB formating.
+
 TAGS_DB = {
         0x42:('Issuer Identification Number (IIN)',TAG_TAGS),
         0x4f:('Application Identifier (AID)',TAG_TAGS),
