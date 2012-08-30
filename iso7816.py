@@ -93,6 +93,7 @@ class ISO7816:
 		self.card.connection.connect()
 		self.ins_db = []
 		self.ins_db_update(INS_DB)
+		self.log = []
 
 	def ins_db_update(self, new): 
 		self.ins_db += new
@@ -125,8 +126,24 @@ class ISO7816:
 		return self.send_apdu_raw(apdu)
 
 	def send_apdu_raw(self, apdu):
-		return self.card.connection.transmit(apdu)
-		
+		res,sw1,sw2 = self.card.connection.transmit(apdu)
+		log_item = {
+			'request':apdu,
+			'response':res,
+			'sw1':sw1,
+			'sw2':sw2
+		}
+		self.log_add(log_item)
+		return res,sw1,sw2
+
+	def log_add(self, log_item):
+		self.log.append(log_item)
+
+	def log_print(self):
+		for l in self.log:
+			print '>>>> ' + l['request']
+			print '<<<< ' + l['response'] + ' SW1: ' + l['sw1'] + ' SW2: ' + l['sw2']	
+	
 	def READ_BINARY(self, p1=0x00, p2=0x00, len=0x00):
 		return self.send_command('READ_BINARY', p1=p1, p2=p2, le=len)
 
