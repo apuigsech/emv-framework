@@ -52,6 +52,11 @@ INS_DB = (
 
 # TODO: Better DB formating.
 
+TAG_TAGS = 0
+TAG_STRING = 1
+TAG_BINARY = 2
+TAG_OBJECT = 3
+
 TAGS_DB = {
         0x42:('Issuer Identification Number (IIN)',TAG_TAGS),
         0x4f:('Application Identifier (AID)',TAG_TAGS),
@@ -208,7 +213,6 @@ class EMV(ISO7816):
 	def __init__(self):
 		ISO7816.__init__(self)
 		ISO7816.ins_db_update(self, INS_DB)
-		ISO7816.tags_db_update(self, TAGS_DB)
 		return
 
 	def SELECT_AID(self, aid):
@@ -226,7 +230,7 @@ class EMV(ISO7816):
                 ins = self.ins_db_resolv('CARD_BLOCK')
                 self.send_apdu(ins=ins, cla=cla, p1=p1, p2=p2, data=mac)
 
-        def EXTERNAL_AUTHENTICATE(self):
+	def EXTERNAL_AUTHENTICATE(self):
                 return
 
 	def GENERATE_APPLICATION_CRYPTOGRAM(self):
@@ -240,5 +244,5 @@ class EMV(ISO7816):
 		data = [0x83, len(pdol_data)] + pdol_data
 		self.send_apdu(cla=0x80, ins=ins, p1=p1, p2=p2, data=data)
 
-        def PIN_CHANGEUNLOCK(self):
+	def PIN_CHANGEUNLOCK(self):
                 return

@@ -93,11 +93,11 @@ class TAG:
 			self.childs[0].show(deep)
 		else:
 			deep_str = deep*'   '
-			print '%s%.2x [%.2x]' % (deep_str, self.code, self.size)
+			print('%s%.2x [%.2x]' % (deep_str, self.code, self.size))
 			if self.type == TAG_TYPE_PRIMITIVE:
-				print '%s  ' % (deep_str), 
+				print('%s  ' % (deep_str),)
 				for i in self.data:
-					print '%.2x' % (i),
+					print('%.2x' % (i),)
 				print
 			deep += 1
 			for tag in self.childs:
@@ -107,7 +107,7 @@ class TLV(TAG):
 	def parse(self, data):
 		size = len(data)
 		self.root = True
-                self.type = TAG_TYPE_CONSTRUCTED
+		self.type = TAG_TYPE_CONSTRUCTED
 		i = 0
 		while i < size:
 			tag = TAG(data[i:])

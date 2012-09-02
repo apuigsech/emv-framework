@@ -141,8 +141,8 @@ class ISO7816:
 
 	def log_print(self):
 		for l in self.log:
-			print '>>>> ' + l['request']
-			print '<<<< ' + l['response'] + ' SW1: ' + l['sw1'] + ' SW2: ' + l['sw2']	
+			print('>>>> ' + str(l['request']))
+			print('<<<< ' + str(l['response']) + ' SW1: ' + str(l['sw1']) + ' SW2: ' + str(l['sw2']))	
 	
 	def READ_BINARY(self, p1=0x00, p2=0x00, len=0x00):
 		return self.send_command('READ_BINARY', p1=p1, p2=p2, le=len)
