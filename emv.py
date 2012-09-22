@@ -240,9 +240,20 @@ class EMV(ISO7816):
 		return
 
 	def GET_PROCESSING_OPTIONS(self, pdol_data, p1=0x00, p2=0x00):
-		ins = self.ins_db_resolv('GET_PROCESSING_OPTIONS')
 		data = [0x83, len(pdol_data)] + pdol_data
-		self.send_apdu(cla=0x80, ins=ins, p1=p1, p2=p2, data=data)
+		apdu_res = self.send_command('GET_PROCESSING_OPTIONS', cla=0x80, p1=p1, p2=p2, data=data)
+		tlv = TLV(apdu_res.data)
+		return apdu_res,tlv
 
 	def PIN_CHANGEUNLOCK(self):
                 return
+
+
+if __name__ == '__main__':
+	print 'TAGS_DB = ('
+	for i in TAGS_DB:
+		print '\t{'
+		print '\t\t\'name\':\'%s\',' % TAGS_DB[i][0]
+		print '\t\t\'code\':0x%x' % i
+		print '\t},'
+

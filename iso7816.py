@@ -85,6 +85,39 @@ INS_DB = (
 	}
 )
 
+class APDU_Command:
+	def __init__(self, cla=0x00, ins=0x00, p1=0x00, p2=0x00, lc=None, data=None, le=None):
+		self.cla = cla
+		self.ins = ins
+		self.p1 = p1
+		self.p2 = p2
+		if data != None and lc == None:
+			lc = len(data)
+		self.lc = lc
+		self.data = data
+		self.le = le
+
+	def raw(self):
+		apdu_cmd_raw = [self.cla, self.ins, self.p1, self.p2]
+		if self.data != None:
+			apdu_cmd_raw += [self.lc] + self.data
+		if self.le != None:
+			apdu_cmd_raw += [self.le]
+		return apdu_cmd_raw
+	
+class APDU_Response:
+	def __init__(self, sw1=0x00, sw2=0x00, data=None):
+		self.sw1 = sw1
+		self.sw2 = sw2
+		self.data = data
+	
+	def raw(self):
+		apdu_res_raw = [self.sw1, self.sw2]
+		if self.data != None:
+			apdu_res_raw += self.data
+		return apdu_res_raw
+
+
 class ISO7816:
 	def __init__(self):
 		cardtype = AnyCardType()
@@ -109,32 +142,15 @@ class ISO7816:
 
 	def send_command(self, cmd, p1, p2, tlvparse=False, cla=0x00, data=None, le=None):
 		ins = self.ins_db_resolv(name=cmd)
-		res,sw1,sw2 = self.send_apdu(ins=ins, p1=p1, p2=p2, cla=cla, data=data, le=le)
-		# TODO: Check sw1 and sw2
-		if tlvparse == True:
-			tlv = TLV(res)
-			return res,sw1,sw2,tlv
-		else:
-			return res,sw1,sw2,None
+		return self.send_apdu(APDU_Command(ins=ins, p1=p1, p2=p2, cla=cla, data=data, le=le))
 
-	def send_apdu(self, ins, p1, p2, cla=0x00, data=None, le=None):
-		apdu = [cla, ins, p1, p2]
-		if data != None:
-			apdu += [len(data)] + data
-		if le != None:
-			apdu += le
-		return self.send_apdu_raw(apdu)
+	def send_apdu(self, apdu_cmd):
+		data,sw1,sw2 = self.send_apdu_raw(apdu_cmd.raw())
+		apdu_res = APDU_Response(sw1=sw1, sw2=sw2, data=data)
+		return apdu_res	
 
 	def send_apdu_raw(self, apdu):
-		res,sw1,sw2 = self.card.connection.transmit(apdu)
-		log_item = {
-			'request':apdu,
-			'response':res,
-			'sw1':sw1,
-			'sw2':sw2
-		}
-		self.log_add(log_item)
-		return res,sw1,sw2
+		return self.card.connection.transmit(apdu)
 
 	def log_add(self, log_item):
 		self.log.append(log_item)
@@ -175,7 +191,9 @@ class ISO7816:
 		self.send_command('PUT_DATA', p1=data_id[0], p2=data_id[1], data=data)
 
 	def SELECT_FILE(self, data, p1=0x00, p2=0x00):
-		return self.send_command('SELECT_FILE', p1=p1, p2=p2, data=data)
+		apdu_res = self.send_command('SELECT_FILE', p1=p1, p2=p2, data=data)
+		tlv = TLV(apdu_res.data)
+		return apdu_res,tlv
 
 	def VERIFY(self):
 		return
