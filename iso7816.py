@@ -104,7 +104,17 @@ class APDU_Command:
 		if self.le != None:
 			apdu_cmd_raw += [self.le]
 		return apdu_cmd_raw
-	
+
+	def str(self):
+		apdu_cmd_str = '{0:02x} {1:02x} {2:02x} {3:02x}'.format(self.cla, self.ins, self.p1, self.p2)
+		if self.data != None:
+			apdu_cmd_str += ' {0:02x}'.format(self.lc)
+			for d in self.data:
+				apdu_cmd_str += ' {0:02x}'.format(d)
+		if self.le != None:
+			apdu_cmd_str += ' {0:02x}'.format(self.le)
+		return apdu_cmd_str
+
 class APDU_Response:
 	def __init__(self, sw1=0x00, sw2=0x00, data=None):
 		self.sw1 = sw1
@@ -112,10 +122,20 @@ class APDU_Response:
 		self.data = data
 	
 	def raw(self):
-		apdu_res_raw = [self.sw1, self.sw2]
+		apdu_res_raw = []
 		if self.data != None:
 			apdu_res_raw += self.data
+		apdu_res_raw += [self.sw1, self.sw2]
 		return apdu_res_raw
+
+	def str(self):
+		apdu_res_str = ''
+		if self.data != None:
+			for d in self.data:
+				apdu_cmd_str += ' {0:02x}'.format(d)
+		apdu_res_str += '{0:02x} {1:02x}'.format(self.sw1, self.sw2)
+		return apdu_res_str
+
 
 
 class ISO7816:
@@ -137,7 +157,6 @@ class ISO7816:
 				return e['code']
 			if code != code and e['code'] == code:
 				return e['name']
-			
 		return None
 
 	def send_command(self, cmd, p1, p2, tlvparse=False, cla=0x00, data=None, le=None):
@@ -145,8 +164,10 @@ class ISO7816:
 		return self.send_apdu(APDU_Command(ins=ins, p1=p1, p2=p2, cla=cla, data=data, le=le))
 
 	def send_apdu(self, apdu_cmd):
+		print '>>> ' + apdu_cmd.str()
 		data,sw1,sw2 = self.send_apdu_raw(apdu_cmd.raw())
 		apdu_res = APDU_Response(sw1=sw1, sw2=sw2, data=data)
+		print '<<< ' + apdu_res.str()
 		return apdu_res	
 
 	def send_apdu_raw(self, apdu):
