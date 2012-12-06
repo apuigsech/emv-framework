@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 from emv import *
+from aid import *
 import sys
 
 emv = EMV()
@@ -10,7 +11,12 @@ if (apdu_res.sw1 != 0x90):
 	sys.exit()
 
 tlv = TLV(apdu_res.data)
-apdu_res = emv.SELECT_AID(tlv.list_childs(0x6f)[0].list_childs(0xa5)[0].list_childs(0xbf0c)[0].list_childs(0x61)[0].list_childs(0x4f)[0].data)
 
+payment_aid = AID(code=tlv.list_childs(0x6f)[0].list_childs(0xa5)[0].list_childs(0xbf0c)[0].list_childs(0x61)[0].list_childs(0x4f)[0].data)
+
+print payment_aid.name
+print payment_aid.code
+
+apdu_res = emv.SELECT_AID(payment_aid.code)
 tlv = TLV(apdu_res.data)
 tlv.show()

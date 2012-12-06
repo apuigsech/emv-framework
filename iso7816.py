@@ -152,6 +152,8 @@ class ISO7816:
 		self.ins_db = []
 		self.ins_db_update(INS_DB)
 		self.log = []
+	
+		self.auto_get_response = True
 
 	def ins_db_update(self, new): 
 		self.ins_db += new
@@ -169,13 +171,12 @@ class ISO7816:
 		return self.send_apdu(APDU_Command(ins=ins, p1=p1, p2=p2, cla=cla, data=data, le=le))
 
 	def send_apdu(self, apdu_cmd):
-		print '>>> ' + apdu_cmd.str()
+		#print '>>> ' + apdu_cmd.str()
 		data,sw1,sw2 = self.send_apdu_raw(apdu_cmd.raw())
 		apdu_res = APDU_Response(sw1=sw1, sw2=sw2, data=data)
-		print '<<< ' + apdu_res.str()
+		#print '<<< ' + apdu_res.str()
 
-		# TODO: auto_get_response object attribute.
-		if (sw1 == 0x61):
+		if (sw1 == 0x61 and self.auto_get_response == True):
 			apdu_res = self.GET_RESPONSE(sw2)
 	
 		return apdu_res	
