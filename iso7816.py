@@ -82,6 +82,10 @@ INS_DB = (
 	{
 		'name':'MANAGE_CHANNEL',
 		'code':0x70
+	},
+	{
+		'name':'GET_RESPONSE',
+		'code':0xc0
 	}
 )
 
@@ -115,12 +119,13 @@ class APDU_Command:
 			apdu_cmd_str += ' {0:02x}'.format(self.le)
 		return apdu_cmd_str
 
+
 class APDU_Response:
 	def __init__(self, sw1=0x00, sw2=0x00, data=None):
 		self.sw1 = sw1
 		self.sw2 = sw2
 		self.data = data
-	
+
 	def raw(self):
 		apdu_res_raw = []
 		if self.data != None:
@@ -132,7 +137,7 @@ class APDU_Response:
 		apdu_res_str = ''
 		if self.data != None:
 			for d in self.data:
-				apdu_cmd_str += ' {0:02x}'.format(d)
+				apdu_res_str += '{0:02x} '.format(d)
 		apdu_res_str += '{0:02x} {1:02x}'.format(self.sw1, self.sw2)
 		return apdu_res_str
 
@@ -159,7 +164,7 @@ class ISO7816:
 				return e['name']
 		return None
 
-	def send_command(self, cmd, p1, p2, tlvparse=False, cla=0x00, data=None, le=None):
+	def send_command(self, cmd, p1=0, p2=0, tlvparse=False, cla=0x00, data=None, le=None):
 		ins = self.ins_db_resolv(name=cmd)
 		return self.send_apdu(APDU_Command(ins=ins, p1=p1, p2=p2, cla=cla, data=data, le=le))
 
@@ -168,6 +173,11 @@ class ISO7816:
 		data,sw1,sw2 = self.send_apdu_raw(apdu_cmd.raw())
 		apdu_res = APDU_Response(sw1=sw1, sw2=sw2, data=data)
 		print '<<< ' + apdu_res.str()
+
+		# TODO: auto_get_response object attribute.
+		if (sw1 == 0x61):
+			apdu_res = self.GET_RESPONSE(sw2)
+	
 		return apdu_res	
 
 	def send_apdu_raw(self, apdu):
@@ -177,10 +187,8 @@ class ISO7816:
 		self.log.append(log_item)
 
 	def log_print(self):
-		for l in self.log:
-			print('>>>> ' + str(l['request']))
-			print('<<<< ' + str(l['response']) + ' SW1: ' + str(l['sw1']) + ' SW2: ' + str(l['sw2']))	
-	
+		return
+
 	def READ_BINARY(self, p1=0x00, p2=0x00, len=0x00):
 		return self.send_command('READ_BINARY', p1=p1, p2=p2, le=len)
 
@@ -209,12 +217,10 @@ class ISO7816:
 		return self.send_command('GET_DATA', p1=data_id[0], p2=data_id[1]) 
 
 	def PUT_DATA(self, data_id, data):
-		self.send_command('PUT_DATA', p1=data_id[0], p2=data_id[1], data=data)
+		return self.send_command('PUT_DATA', p1=data_id[0], p2=data_id[1], data=data)
 
 	def SELECT_FILE(self, data, p1=0x00, p2=0x00):
-		apdu_res = self.send_command('SELECT_FILE', p1=p1, p2=p2, data=data)
-		tlv = TLV(apdu_res.data)
-		return apdu_res,tlv
+		return self.send_command('SELECT_FILE', p1=p1, p2=p2, data=data)
 
 	def VERIFY(self):
 		return
@@ -231,8 +237,8 @@ class ISO7816:
 	def MANAGE_CHANNEL(self):
 		return
 
-	def GET_RESPONSE(self):
-		return
+	def GET_RESPONSE(self, le):
+		return self.send_command('GET_RESPONSE', le=le)
 
 	def ENVELOPPE(self):
 		return
