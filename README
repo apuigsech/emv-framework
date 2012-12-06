@@ -4,6 +4,6 @@ EMV Framework
 About
 -----
 
-EMV Framework is a Python EMV client-side implementation that allow to comunicate with payment cards through ISO7816-4/EMV.
+EMV Framework is a Python EMV terminal-side implementation that allow to comunicate with payment cards through ISO7816-4/EMV.
 
 EMV stands for Europay, MasterCard and Visa, a global standard for inter-operation of integrated circuit cards (IC cards or "chip cards") and IC card capable point of sale (POS) terminals and automated teller machines (ATMs), for authenticating credit and debit card transactions.

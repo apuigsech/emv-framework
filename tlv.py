@@ -21,15 +21,13 @@ TAG_TYPE_CONSTRUCTED = 0x1
 TAG_SIZE_BIG_1 = 0x81
 TAG_SIZE_BIG_2 = 0x82
 
-# TODO: Implements class specifcations.
-
 class TAG:
 	def __init__(self, data=None):
 		self.childs = [] 
 		self.root = False
 		self.code = None
 		self.type = None
-#		self.class = None
+		self._class = None
 		self.extended = None
 		self.size = None
 		self.total_size = None
@@ -46,7 +44,7 @@ class TAG:
 			self.extended = True
 		else:
 			self.extended = False
-#		self.class = (data[i]&0b11000000)>>6
+		self._class = (data[i]&0b11000000)>>6
 		self.type = (data[i]&0b00100000)>>5		
 
 		if self.extended:

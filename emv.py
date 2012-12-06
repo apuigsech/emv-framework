@@ -241,9 +241,8 @@ class EMV(ISO7816):
 
 	def GET_PROCESSING_OPTIONS(self, pdol_data, p1=0x00, p2=0x00):
 		data = [0x83, len(pdol_data)] + pdol_data
-		apdu_res = self.send_command('GET_PROCESSING_OPTIONS', cla=0x80, p1=p1, p2=p2, data=data)
-		tlv = TLV(apdu_res.data)
-		return apdu_res,tlv
+		return self.send_command('GET_PROCESSING_OPTIONS', cla=0x80, p1=p1, p2=p2, data=data)
+		return apdu_res
 
 	def PIN_CHANGEUNLOCK(self):
                 return
