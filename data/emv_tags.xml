@@ -1,0 +1,147 @@
+<xml>
+	<tag code='9f01' name='Acquirer Identifier' />
+	<tag code='9f02' name='Amount, Authorised (Numeric)' />
+	<tag code='9f03' name='Amount, Other (Numeric)' />
+	<tag code='9f04' name='Amount, Other (Binary)' />
+	<tag code='9f05' name='Application Discretionary Data' />
+	<tag code='9f06' name='Application Identifier (AID) - terminal' />
+	<tag code='9f07' name='Application Usage Control' />
+	<tag code='9f08' name='Application Version Number' />
+	<tag code='9f09' name='Application Version Number' />
+	<tag code='9f0b' name='Cardholder Name Extended' />
+	<tag code='bf0c' name='FCI Issuer Discretionary Data' />
+	<tag code='9f0d' name='Issuer Action Code - Default' />
+	<tag code='9f0e' name='Issuer Action Code - Denial' />
+	<tag code='9f0f' name='Issuer Action Code - Online' />
+	<tag code='9f10' name='Issuer Application Data' />
+	<tag code='9f11' name='Issuer Code Table Index' />
+	<tag code='9f12' name='Application Preferred Name' />
+	<tag code='9f13' name='Last Online Application Transaction Counter (ATC) Register' />
+	<tag code='9f14' name='Lower Consecutive Offline Limit' />
+	<tag code='9f15' name='Merchant Category Code' />
+	<tag code='9f16' name='Merchant Identifier' />
+	<tag code='9f17' name='Personal Identification Number (PIN) Try Counter' />
+	<tag code='9f18' name='Issuer Script Identifier' />
+	<tag code='9f1a' name='Terminal Country Code' />
+	<tag code='9f1b' name='Terminal Floor Limit' />
+	<tag code='9f1c' name='Terminal Identification' />
+	<tag code='9f1d' name='Terminal Risk Management Data' />
+	<tag code='9f1e' name='Interface Device (IFD) Serial Number' />
+	<tag code='9f1f' name='Track 1 Discretionary Data' />
+	<tag code='5f20' name='Cardholder Name' />
+	<tag code='9f21' name='Transaction Time' />
+	<tag code='9f22' name='Certification Authority Public Key Index' />
+	<tag code='9f23' name='Upper Consecutive Offline Limit' />
+	<tag code='5f24' name='Application Expiration Date' />
+	<tag code='5f25' name='Application Effective Date' />
+	<tag code='9f26' name='Application Cryptogram' />
+	<tag code='9f27' name='Cryptogram Information Data' />
+	<tag code='5f28' name='Issuer Country Code' />
+	<tag code='5f2a' name='Transaction Currency Code' />
+	<tag code='5f2d' name='Language Preference' />
+	<tag code='9f2e' name='Integrated Circuit Card (ICC) PIN Encipherment Public Key Exponent' />
+	<tag code='9f2f' name='Integrated Circuit Card (ICC) PIN Encipherment Public Key Remainder' />
+	<tag code='5f30' name='Service Code' />
+	<tag code='9f32' name='Issuer Public Key Exponent' />
+	<tag code='9f33' name='Terminal Capabilities' />
+	<tag code='5f34' name='Application Primary Account Number (PAN)' />
+	<tag code='9f35' name='Terminal Type' />
+	<tag code='5f36' name='Transaction Currency Exponent' />
+	<tag code='9f37' name='Unpredictable Number' />
+	<tag code='9f38' name='Processing Options Data Object List (PDOL)' />
+	<tag code='9f34' name='Cardholder Verification Method (CVM) Results' />
+	<tag code='9f3a' name='Amount, Reference Currency' />
+	<tag code='9f3b' name='Application Reference Currency' />
+	<tag code='9f3c' name='Transaction Reference Currency Code' />
+	<tag code='9f3d' name='Transaction Reference Currency Exponent' />
+	<tag code='9f40' name='Additional Terminal Capabilities' />
+	<tag code='9f41' name='Transaction Sequence Counter' />
+	<tag code='42' name='Issuer Identification Number (IIN)' />
+	<tag code='9f43' name='Application Reference Currency Exponent' />
+	<tag code='9f44' name='Application Currency Exponent' />
+	<tag code='9f2d' name='Integrated Circuit Card (ICC) PIN Encipherment Public Key Certificate' />
+	<tag code='9f46' name='Integrated Circuit Card (ICC) Public Key Certificate' />
+	<tag code='9f47' name='Integrated Circuit Card (ICC) Public Key Exponent' />
+	<tag code='9f48' name='Integrated Circuit Card (ICC) Public Key Remainder' />
+	<tag code='9f49' name='Dynamic Data Authentication Data Object List (DDOL)' />
+	<tag code='9f4a' name='Static Data Authentication Tag List' />
+	<tag code='9f4b' name='Signed Dynamic Application Data' />
+	<tag code='9f4c' name='ICC Dynamic Number' />
+	<tag code='9f4d' name='Log Entry' />
+	<tag code='9f4e' name='Merchant Name and Location' />
+	<tag code='4f' name='Application Identifier (AID)' />
+	<tag code='50' name='Application Label' />
+	<tag code='9f51' name='Application Currency Code' />
+	<tag code='9f52' name='Card Verification Results (CVR)' />
+	<tag code='5f53' name='International Bank Account Number (IBAN)' />
+	<tag code='5f54' name='Bank Identifier Code (BIC)' />
+	<tag code='5f55' name='Issuer Country Code (alpha2 format)' />
+	<tag code='5f56' name='Issuer Country Code (alpha3 format)' />
+	<tag code='57' name='Track 2 Equivalent Data' />
+	<tag code='9f58' name='Lower Consecutive Offline Limit (Card Check)' />
+	<tag code='9f59' name='Upper Consecutive Offline Limit (Card Check)' />
+	<tag code='5a' name='Application Primary Account Number (PAN)' />
+	<tag code='9f5c' name='Cumulative Total Transaction Amount Upper Limit' />
+	<tag code='9f72' name='Consecutive Transaction Limit (International - Country)' />
+	<tag code='61' name='Application Template' />
+	<tag code='9f65' name='Track 2 Bit Map for CVC3' />
+	<tag code='9f66' name='Track 2 Bit Map for UN and ATC' />
+	<tag code='9f68' name='Mag Stripe CVM List' />
+	<tag code='9f69' name='Unpredictable Number Data Object List (UDOL)' />
+	<tag code='9f6b' name='Track 2 Data' />
+	<tag code='9f6c' name='Mag Stripe Application Version Number (Card)' />
+	<tag code='9f6e' name='Unknown Tag' />
+	<tag code='6f' name='File Control Information (FCI) Template' />
+	<tag code='70' name='EMV Proprietary Template' />
+	<tag code='71' name='Issuer Script Template 1' />
+	<tag code='72' name='Issuer Script Template 2' />
+	<tag code='73' name='Directory Discretionary Template' />
+	<tag code='9f74' name='VLP Issuer Authorization Code' />
+	<tag code='9f75' name='Cumulative Total Transaction Amount Limit - Dual Currency' />
+	<tag code='9f76' name='Secondary Application Currency Code' />
+	<tag code='77' name='Response Message Template Format 2' />
+	<tag code='9f7d' name='Unknown Tag' />
+	<tag code='9f7f' name='Card Production Life Cycle (CPLC) History File Identifiers' />
+	<tag code='80' name='Response Message Template Format 1' />
+	<tag code='81' name='Amount, Authorised (Binary)' />
+	<tag code='82' name='Application Interchange Profile' />
+	<tag code='83' name='Command Template' />
+	<tag code='84' name='Dedicated File (DF) Name' />
+	<tag code='86' name='Issuer Script Command' />
+	<tag code='87' name='Application Priority Indicator' />
+	<tag code='88' name='Short File Identifier (SFI)' />
+	<tag code='89' name='Authorisation Code' />
+	<tag code='8a' name='Authorisation Response Code' />
+	<tag code='8c' name='Card Risk Management Data Object List 1 (CDOL1)' />
+	<tag code='8d' name='Card Risk Management Data Object List 2 (CDOL2)' />
+	<tag code='8f' name='Certification Authority Public Key Index' />
+	<tag code='90' name='Issuer Public Key Certificate' />
+	<tag code='91' name='Issuer Authentication Data' />
+	<tag code='92' name='Issuer Public Key Remainder' />
+	<tag code='93' name='Signed Static Application Data' />
+	<tag code='94' name='Application File Locator (AFL)' />
+	<tag code='95' name='Terminal Verification Results' />
+	<tag code='97' name='Transaction Certificate Data Object List (TDOL)' />
+	<tag code='98' name='Transaction Certificate (TC) Hash Value' />
+	<tag code='99' name='Transaction Personal Identification Number (PIN) Data' />
+	<tag code='9a' name='Transaction Date' />
+	<tag code='9b' name='Transaction Status Information' />
+	<tag code='9c' name='Transaction Type' />
+	<tag code='9d' name='Directory Definition File (DDF) Name' />
+	<tag code='9f45' name='Data Authentication Code' />
+	<tag code='a5' name='File Control Information (FCI) Proprietary Template' />
+	<tag code='9f57' name='Issuer Country Code' />
+	<tag code='9f39' name='Point-of-Service (POS) Entry Mode' />
+	<tag code='9f73' name='Currency Conversion Factor' />
+	<tag code='9f42' name='Application Currency Code' />
+	<tag code='9f56' name='Issuer Authentication Indicator' />
+	<tag code='9f20' name='Track 2 Discretionary Data' />
+	<tag code='df01' name='Reference PIN' />
+	<tag code='9f36' name='Application Transaction Counter (ATC)' />
+	<tag code='9f4f' name='Log Format' />
+	<tag code='5f50' name='Issuer URL' />
+	<tag code='9f5a' name='Issuer URL2' />
+	<tag code='9f53' name='Consecutive Transaction Limit (International)' />
+	<tag code='9f54' name='Cumulative Total Transaction Amount Limit' />
+	<tag code='9f55' name='Geographic Indicator' />
+</xml>
