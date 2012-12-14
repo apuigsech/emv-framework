@@ -77,8 +77,9 @@ class TAG:
 
 		self.total_size = i
 
-		if tags_db != None and tags_db.has_key(self.code):
-			self.name = tags_db[self.code]['name']
+		key = '%x' % self.code
+		if tags_db != None and tags_db.has_key(key):
+			self.name = tags_db[key]['name']
 
 
 	def list_childs(self, code=None):

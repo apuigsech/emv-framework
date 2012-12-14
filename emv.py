@@ -10,6 +10,8 @@
 #    of the License, or (at your option) any later version.
 #
 
+from lxml import etree
+
 from tlv import *
 from iso7816 import ISO7816
 
@@ -50,13 +52,6 @@ INS_DB = (
 	}
 )
 
-# TODO: Better DB formating.
-
-TAG_TAGS = 0
-TAG_STRING = 1
-TAG_BINARY = 2
-TAG_OBJECT = 3
-
 class EMV(ISO7816):
 	def __init__(self):
 		ISO7816.__init__(self)
@@ -94,3 +89,15 @@ class EMV(ISO7816):
 
 	def PIN_CHANGEUNLOCK(self):
                 return
+
+class EMV_TLV(TLV):
+	def __init__(self, data):
+		tags_db = {}
+
+		tree = etree.parse('data/emv_tags.xml')
+		for tag in tree.findall('tag'):
+			tags_db[tag.attrib['code']] = {
+				'name':tag.attrib['name']
+			}
+
+		TLV.__init__(self, data, tags_db)
