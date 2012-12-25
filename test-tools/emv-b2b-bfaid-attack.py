@@ -2,7 +2,7 @@
 
 from emv import *
 import sys
-
+import time
 
 def check_aid(aid):
 	for plus in range(0x00,0xff+1):
@@ -22,6 +22,7 @@ def check_aid(aid):
 				check_aid(current_aid)
 			else:
 				check_aid(current_aid)
+
 
 
 emv = EMV()
