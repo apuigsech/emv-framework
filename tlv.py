@@ -22,7 +22,7 @@ TAG_SIZE_BIG_1 = 0x81
 TAG_SIZE_BIG_2 = 0x82
 
 class TAG:
-	def __init__(self, data=None, tags_db=None):
+	def __init__(self, data=None, tags_db=None, content=True):
 		self.childs = [] 
 		self.root = False
 		self.code = None
@@ -32,9 +32,12 @@ class TAG:
 		self.extended = None
 		self.size = None
 		self.total_size = None
-		self.parse(data, tags_db)
+		self.data = None
+		self.parsed_data = None
+		self.human_data = None
+		self.parse(data, tags_db, content)
 
-	def parse(self, data, tags_db):
+	def parse(self, data, tags_db, content):
 		if data == None:
 			return
 		
@@ -47,7 +50,7 @@ class TAG:
 			self.extended = False
 		self._class = (data[i]&0b11000000)>>6
 		self.type = (data[i]&0b00100000)>>5		
-
+	
 		if self.extended:
 			self.code = 256 * data[i] + data[i+1]
 			i += 2
@@ -55,32 +58,38 @@ class TAG:
 			self.code = data[i]	
 			i += 1
 
+		# Recursive extended size
 		if data[i] == TAG_SIZE_BIG_1:
 			self.size = data[i+1]
 			i += 2
 		elif data[i] == TAG_SIZE_BIG_2:
 			self.size = 256 * data[i+1] + data[i+2]
-			i +=3
+			i += 3
 		else:
 			self.size = data[i]
 			i += 1
+	
+		if content == True:
+			self.data = data[i:i+self.size]
+			i += self.size
 
-		self.data = data[i:i+self.size]
-		i += self.size
-
-		if self.type == TAG_TYPE_CONSTRUCTED:
-			j = 0
-			while j < self.size:
-				tag = TAG(self.data[j:], tags_db)
-				self.childs.append(tag)
-				j += tag.total_size
-
-		self.total_size = i
+			if self.type == TAG_TYPE_CONSTRUCTED:
+				j = 0
+				while j < self.size:
+					tag = TAG(self.data[j:], tags_db)
+					self.childs.append(tag)
+					j += tag.total_size
 
 		key = '%x' % self.code
 		if tags_db != None and tags_db.has_key(key):
 			self.name = tags_db[key]['name']
+			if tags_db[key].has_key('parser') and tags_db[key]['parser'] != None:
+				d = tags_db[key]['parser'].split('.')
+				m = __import__ (d[0])
+				func = getattr(m,d[1])
+				func(self)
 
+		self.total_size = i
 
 	def list_childs(self, code=None):
 		if code == None:
@@ -93,26 +102,31 @@ class TAG:
 
 	def show(self, deep=0):
 		if self.root:
-			self.childs[0].show(deep)
+			for c in self.childs:
+				c.show(deep)
 		else:
 			deep_str = deep*'   '
 			print '%s%.2x [%.2x] - %s' % (deep_str, self.code, self.size, self.name)
-			if self.type == TAG_TYPE_PRIMITIVE:
+			if self.type == TAG_TYPE_PRIMITIVE and self.data != None:
 				print '%s  ' % (deep_str),
 				for i in self.data:
 					print '%.2x' % (i),
 				print
+				if self.human_data != None:
+					print '%s  ' % (deep_str),
+					print '( {0:s} )'.format(self.human_data)
+					
 			deep += 1
 			for tag in self.childs:
 				tag.show(deep)
 
 class TLV(TAG):
-	def parse(self, data, tags_db=None):
+	def parse(self, data, tags_db=None, content=True):
 		size = len(data)
 		self.root = True
 		self.type = TAG_TYPE_CONSTRUCTED
 		i = 0
 		while i < size:
-			tag = TAG(data[i:], tags_db)
+			tag = TAG(data[i:], tags_db, content)
 			self.childs.append(tag)
 			i += tag.total_size

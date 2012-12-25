@@ -13,6 +13,7 @@
 from lxml import etree
 
 from tlv import *
+from aid import *
 from iso7816 import ISO7816
 
 # TODO: Solve conflicts with ISO7816 in DB (EXTERNAL_AUTHENTICATE, GET_CHALLENGE)
@@ -91,13 +92,37 @@ class EMV(ISO7816):
                 return
 
 class EMV_TLV(TLV):
-	def __init__(self, data):
+	def __init__(self, data=None, content=True):
 		tags_db = {}
 
 		tree = etree.parse('data/emv_tags.xml')
 		for tag in tree.findall('tag'):
+			if tag.attrib.has_key('name'):
+				name = tag.attrib['name']
+			else:
+				name = ''
+			if tag.attrib.has_key('parser'):
+				parser = 'emv.{0:s}'.format(tag.attrib['parser'])
+			else:
+				parser = None
+
 			tags_db[tag.attrib['code']] = {
-				'name':tag.attrib['name']
+				'name':name,
+				'parser':parser
 			}
 
-		TLV.__init__(self, data, tags_db)
+		TLV.__init__(self, data, tags_db, content)
+
+def tag_string(tag, show=None):
+	tag.human_data = ''.join(map(chr,tag.data))
+			
+
+def tag_dol(tag, show=None):
+	tlv = EMV_TLV(tag.data, content=False)
+	tag.parsed_data = []
+	for c in tlv.childs:
+		tag.parsed_data.append(c)
+		tag.childs.append(c)
+
+def tag_aid(tag, show=None):
+	tag.human_data = AID(code=tag.data).name

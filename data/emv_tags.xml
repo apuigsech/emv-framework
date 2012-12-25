@@ -28,7 +28,7 @@
 	<tag code='9f1d' name='Terminal Risk Management Data' />
 	<tag code='9f1e' name='Interface Device (IFD) Serial Number' />
 	<tag code='9f1f' name='Track 1 Discretionary Data' />
-	<tag code='5f20' name='Cardholder Name' />
+	<tag code='5f20' name='Cardholder Name' parser='tag_string'/>
 	<tag code='9f21' name='Transaction Time' />
 	<tag code='9f22' name='Certification Authority Public Key Index' />
 	<tag code='9f23' name='Upper Consecutive Offline Limit' />
@@ -48,7 +48,7 @@
 	<tag code='9f35' name='Terminal Type' />
 	<tag code='5f36' name='Transaction Currency Exponent' />
 	<tag code='9f37' name='Unpredictable Number' />
-	<tag code='9f38' name='Processing Options Data Object List (PDOL)' />
+	<tag code='9f38' name='Processing Options Data Object List (PDOL)' parser='tag_dol'/>
 	<tag code='9f34' name='Cardholder Verification Method (CVM) Results' />
 	<tag code='9f3a' name='Amount, Reference Currency' />
 	<tag code='9f3b' name='Application Reference Currency' />
@@ -63,14 +63,14 @@
 	<tag code='9f46' name='Integrated Circuit Card (ICC) Public Key Certificate' />
 	<tag code='9f47' name='Integrated Circuit Card (ICC) Public Key Exponent' />
 	<tag code='9f48' name='Integrated Circuit Card (ICC) Public Key Remainder' />
-	<tag code='9f49' name='Dynamic Data Authentication Data Object List (DDOL)' />
+	<tag code='9f49' name='Dynamic Data Authentication Data Object List (DDOL)' parser='tag_dol' />
 	<tag code='9f4a' name='Static Data Authentication Tag List' />
 	<tag code='9f4b' name='Signed Dynamic Application Data' />
 	<tag code='9f4c' name='ICC Dynamic Number' />
 	<tag code='9f4d' name='Log Entry' />
 	<tag code='9f4e' name='Merchant Name and Location' />
-	<tag code='4f' name='Application Identifier (AID)' />
-	<tag code='50' name='Application Label' />
+	<tag code='4f' name='Application Identifier (AID)' parser='tag_aid'/>
+	<tag code='50' name='Application Label' parser='tag_string'/>
 	<tag code='9f51' name='Application Currency Code' />
 	<tag code='9f52' name='Card Verification Results (CVR)' />
 	<tag code='5f53' name='International Bank Account Number (IBAN)' />
@@ -87,7 +87,7 @@
 	<tag code='9f65' name='Track 2 Bit Map for CVC3' />
 	<tag code='9f66' name='Track 2 Bit Map for UN and ATC' />
 	<tag code='9f68' name='Mag Stripe CVM List' />
-	<tag code='9f69' name='Unpredictable Number Data Object List (UDOL)' />
+	<tag code='9f69' name='Unpredictable Number Data Object List (UDOL)' parser='tag_dol' />
 	<tag code='9f6b' name='Track 2 Data' />
 	<tag code='9f6c' name='Mag Stripe Application Version Number (Card)' />
 	<tag code='9f6e' name='Unknown Tag' />
@@ -112,8 +112,9 @@
 	<tag code='88' name='Short File Identifier (SFI)' />
 	<tag code='89' name='Authorisation Code' />
 	<tag code='8a' name='Authorisation Response Code' />
-	<tag code='8c' name='Card Risk Management Data Object List 1 (CDOL1)' />
-	<tag code='8d' name='Card Risk Management Data Object List 2 (CDOL2)' />
+	<tag code='8c' name='Card Risk Management Data Object List 1 (CDOL1)' parser='tag_dol'/>
+	<tag code='8d' name='Card Risk Management Data Object List 2 (CDOL2)' parser='tag_dol'/>
+	<tag code='8e' name='Cardholder Verification Method (CVM) List' />
 	<tag code='8f' name='Certification Authority Public Key Index' />
 	<tag code='90' name='Issuer Public Key Certificate' />
 	<tag code='91' name='Issuer Authentication Data' />
@@ -121,7 +122,7 @@
 	<tag code='93' name='Signed Static Application Data' />
 	<tag code='94' name='Application File Locator (AFL)' />
 	<tag code='95' name='Terminal Verification Results' />
-	<tag code='97' name='Transaction Certificate Data Object List (TDOL)' />
+	<tag code='97' name='Transaction Certificate Data Object List (TDOL)' parser='tag_dol'/>
 	<tag code='98' name='Transaction Certificate (TC) Hash Value' />
 	<tag code='99' name='Transaction Personal Identification Number (PIN) Data' />
 	<tag code='9a' name='Transaction Date' />

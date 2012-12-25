@@ -175,9 +175,13 @@ class ISO7816:
 		data,sw1,sw2 = self.send_apdu_raw(apdu_cmd.raw())
 		apdu_res = APDU_Response(sw1=sw1, sw2=sw2, data=data)
 		#print '<<< ' + apdu_res.str()
-
-		if (sw1 == 0x61 and self.auto_get_response == True):
-			apdu_res = self.GET_RESPONSE(sw2)
+	
+		if self.auto_get_response == True:
+			if sw1 == 0x6c:
+				apdu_cmd.le = sw2
+				apdu_res = self.send_apdu(apdu_cmd)
+			if sw1 == 0x61:
+				apdu_res = self.GET_RESPONSE(sw2)
 	
 		return apdu_res	
 
@@ -202,17 +206,17 @@ class ISO7816:
 	def ERASE_BINARY(self, p1=0x00, p2=0x00, data=None):
 		return self.send_command('ERASE_BINARY', p1=p1, p2=p2, data=data)
 
-	def READ_RECORD(self, sfi, record=0x00):
-		return self.send_command('READ_RECORD', p1=record, p2=(sfi<<3)+4)
+	def READ_RECORD(self, sfi, record=0x00, variation=0b100):
+		return self.send_command('READ_RECORD', p1=record, p2=(sfi<<3)+variation, le=0)
 
-	def WRITE_RECORD(self, sfi, data, record=0x00):
-		return self.send_command('WRITE_RECORD', p1=record, p2=(sfi<<3)+4, data=data)
+	def WRITE_RECORD(self, sfi, data, record=0x00, variation=0b100):
+		return self.send_command('WRITE_RECORD', p1=record, p2=(sfi<<3)+variation, data=data)
 
-	def APPEND_RECORD(self, sfi):
-		return self.send_command('APPEND_RECORD', p1=0x00, p2=(sfi<<3), data=data)
+	def APPEND_RECORD(self, sfi, variation=0b100):
+		return self.send_command('APPEND_RECORD', p1=0x00, p2=(sfi<<3)+variation, data=data)
 
-	def UPDATE_RECORD(self, sfi, data, record=0x00):
-		return self.send_command('UPDATE_RECORD', p1=record, p2=(sfi<<3)+4, data=data)
+	def UPDATE_RECORD(self, sfi, data, record=0x00, variation=0b100):
+		return self.send_command('UPDATE_RECORD', p1=record, p2=(sfi<<3)+variation, data=data)
 
 	def GET_DATA(self, data_id):
 		return self.send_command('GET_DATA', p1=data_id[0], p2=data_id[1]) 

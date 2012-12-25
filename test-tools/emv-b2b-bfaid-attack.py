@@ -17,7 +17,7 @@ def check_aid(aid):
 			tlv=EMV_TLV(apdu_res.data)
 			final_aid = tlv.list_childs(0x6f)[0].list_childs(0x84)[0].data
 			if (final_aid == current_aid):
-				sys.stdout.write(" (FOUND!)\n".format(map(hex,current_aid)))
+				sys.stdout.write(" (FOUND!)\n")
 				tlv.show()
 				check_aid(current_aid)
 			else:
