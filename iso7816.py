@@ -162,7 +162,7 @@ class ISO7816:
 		for e in self.ins_db:
 			if name != None and e['name'] == name:
 				return e['code']
-			if code != code and e['code'] == code:
+			if code != None and e['code'] == code:
 				return e['name']
 		return None
 
